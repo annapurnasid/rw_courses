@@ -26,8 +26,31 @@ class _CoursesPageState extends State<CoursesPage> {
           // Circular Progress Indicator will be shown while waiting for network response
           return const Center(child: CircularProgressIndicator());
         }
-        return Text(courses.toString());
+        return ListView.builder(
+            padding: const EdgeInsets.all(16.0),
+            itemCount: courses.length,
+            itemBuilder: (BuildContext context, int position) {
+              return _buildListTile(courses[position]);
+            });
       },
+    );
+  }
+
+  // Building individual list tile
+  Widget _buildListTile(Course course) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListTile(
+        title: Padding(
+          padding: const EdgeInsets.only(bottom: 4.0),
+          child: Text(course.name, style: const TextStyle(fontSize: 18.0)),
+        ),
+        subtitle: Text(course.domainString),
+        trailing: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.network(course.artworkUrl),
+        ),
+      ),
     );
   }
 }

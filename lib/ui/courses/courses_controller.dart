@@ -5,6 +5,7 @@ class CourseController {
 
   final Repository _repository;
 
+  // Injecting the repository to the controller
   CourseController(this._repository);
 
   // this future will return a list of courses

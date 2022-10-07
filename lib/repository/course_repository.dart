@@ -20,7 +20,7 @@ class CourseRepository implements Repository {
       url += ';&filter[domain_ids][]=$domainFilter';
     }
 
-    // Converting URL to URI and making request
+    // Converting URL to URI and making the http request
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final apiResponse = json.decode(response.body) as Map<String, dynamic>;
