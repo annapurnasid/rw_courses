@@ -1,6 +1,7 @@
-# sh_courses
+# RW Courses
 
-A new Flutter project.
+A new Flutter project based on the [Ray Wenderlich API](https://api.raywenderlich.com/api/contents?filter[content_types][]=collection).
+
 
 ## Getting Started
 
