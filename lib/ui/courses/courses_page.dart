@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sh_courses/constants.dart';
 import 'package:sh_courses/repository/course_repository.dart';
 import 'package:sh_courses/ui/course_detail/course_details_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/course.dart';
+import '../../state/filter_state_container.dart';
 import 'courses_controller.dart';
 
 class CoursesPage extends StatefulWidget {
@@ -16,23 +15,29 @@ class CoursesPage extends StatefulWidget {
 
 class _CoursesPageState extends State<CoursesPage> {
   final _controller = CourseController(CourseRepository());
-  int _filterValue = Constants.allFilter;
+  late FilterState state;
 
   @override
-  void initState() {
-    super.initState();
-    _loadValue();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // whenever inherited widget updates, (updateShouldNotify returns true),
+    // the state property of FilterPageState will update, and page will be rebuilt.
+    state = FilterStateContainer.of(context);
   }
 
   @override
   Widget build(BuildContext context) {
     // Future builder to get the course list after the network call
     return FutureBuilder<List<Course>>(
-      future: _controller.fetchCourses(_filterValue),
+      future: _controller.fetchCourses(state.filterValue),
       builder: (context, snapshot) {
         final courses = snapshot.data;
-        if (courses == null) {
-          // Circular Progress Indicator will be shown while waiting for network response
+
+        // When the data is not already received from network OR when filter is refreshed
+        // Show circular progress indicator
+        if (courses == null ||
+            snapshot.connectionState != ConnectionState.done) {
           return const Center(child: CircularProgressIndicator());
         }
         return ListView.builder(
@@ -70,13 +75,5 @@ class _CoursesPageState extends State<CoursesPage> {
         },
       ),
     );
-  }
-
-  // To load the currently saved filter value when filter page is opened
-  void _loadValue() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _filterValue = prefs.getInt(Constants.filterKey) ?? 0;
-    });
   }
 }
