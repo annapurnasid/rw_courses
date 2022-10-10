@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sh_courses/strings.dart';
 import 'package:sh_courses/ui/filter/filter_page.dart';
 
@@ -9,6 +10,7 @@ class RWCoursesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return Scaffold(
       appBar: AppBar(
         title: Text(Strings.appTitle),

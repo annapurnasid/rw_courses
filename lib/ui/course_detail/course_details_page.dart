@@ -3,6 +3,7 @@ import 'package:sh_courses/utils/string_extensions.dart';
 
 import '../../model/course.dart';
 import 'image_container.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CourseDetailsPage extends StatelessWidget {
   const CourseDetailsPage({Key? key, required this.course}) : super(key: key);
@@ -19,7 +20,9 @@ class CourseDetailsPage extends StatelessWidget {
         children: [
           _buildImageBanner(),
           _buildPrimaryDetails(context),
-          _buildSecondaryDetails(context)
+          _buildSecondaryDetails(context),
+          TextButton(onPressed: () => _launchCourseOnWeb(course.courseId),
+              child: const Text('View Course on Web'))
         ],
       ),
     );
@@ -84,5 +87,11 @@ class CourseDetailsPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  // Function to open the course on web browser
+  void _launchCourseOnWeb(String courseId) {
+    launchUrl(Uri.parse('https://raywenderlich.com/$courseId'));
+
   }
 }

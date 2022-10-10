@@ -23,7 +23,7 @@ You also have a filter feature, using which you can filter the courses based on 
 - Maintaining the state of flutter widget using Inherited Widget
 - Displaying results based on filters
 
-
+You can check out the app face in the [screenshots folder]()
 
 ## Getting Started
 
